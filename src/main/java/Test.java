@@ -6,7 +6,7 @@ import java.util.Random;
 
 import Requests.*;
 
-public class RedPay {
+public class Test {
 
     public static void main(String[] args) throws IOException {
 
@@ -26,9 +26,11 @@ public class RedPay {
         // Charges a credit card
         ChargeBuilder chargeBuilder = new ChargeBuilder(config)
                 .account("4111111111111111")
+                .cardHolderName("John Doe")
                 .amount(random.nextInt(max - min + 1) + min)
                 .avsZip("60603")
-                .expDate("072018");
+                .expDate("072018")
+                .cvv("123");
         RedPayResponse chargeResponse = chargeBuilder.create();
         System.out.println("Charge Status: " + chargeResponse.getText());
 
@@ -41,9 +43,11 @@ public class RedPay {
         // Charges a credit card
         chargeBuilder = new ChargeBuilder(config)
                 .account("4111111111111111")
+                .cardHolderName("John Doe")
                 .amount(random.nextInt(max - min + 1) + min)
                 .avsZip("60603")
-                .expDate("072018");
+                .expDate("072018")
+                .cvv("123");
         chargeResponse = chargeBuilder.create();
         System.out.println("Charge Status: " + chargeResponse.getText());
 

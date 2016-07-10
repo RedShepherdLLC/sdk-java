@@ -19,13 +19,12 @@ public class RedPayResponse {
     private String timeStamp;
     private String text;
     private String clientIP;
-    private String sequenceNumber;
     private String avsCode;
 
     public RedPayResponse(String mTransferStatus, String mResponseCode, String mTransactionId, String mAuthCode,
                           String mCardLevel, String mCardBrand, String mCardType, String mProcessorCode, String mApp,
                           String mAccount, String mCardHolderName, long mAmount, String mTimeStamp, String mText,
-                          String mClientIP, String mSequenceNumber, String mAvsCode)
+                          String mClientIP, String mAvsCode)
     {
         transferStatus = mTransferStatus;
         responseCode = mResponseCode;
@@ -42,7 +41,6 @@ public class RedPayResponse {
         timeStamp = mTimeStamp;
         text = mText;
         clientIP = mClientIP;
-        sequenceNumber = mSequenceNumber;
         avsCode = mAvsCode;
     }
 
@@ -104,10 +102,6 @@ public class RedPayResponse {
 
     public String getClientIP() {
         return clientIP;
-    }
-
-    public String getSequenceNumber() {
-        return sequenceNumber;
     }
 
     public String getAvsCode() {
