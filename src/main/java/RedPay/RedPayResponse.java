@@ -1,8 +1,7 @@
-package Requests;
+package RedPay;
 
-/**
- * Created by redshepherd on 7/7/2016.
- */
+import com.google.gson.Gson;
+
 public class RedPayResponse {
     private String transferStatus;
     private String responseCode;
@@ -42,6 +41,11 @@ public class RedPayResponse {
         text = mText;
         clientIP = mClientIP;
         avsCode = mAvsCode;
+    }
+
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 
     public String getTransferStatus() {

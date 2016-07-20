@@ -1,38 +1,35 @@
-package Requests;
+package RedPay;
 
-import com.google.gson.Gson;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 
-/**
- * Created by redshepherd on 7/6/2016.
- */
 public class ChargeBuilder
 {
     private Config config;
 
-    private static String transactionId = null;
-    private static String account = null;
-    private static long amount;
-    private static String expmmyyyy = null;
-    private static String cvv = null;
-    private static String track1Data = null;
-    private static String track2Data = null;
-    private static String signatureData = null;
-    private static String cardHolderName = null;
-    private static String method = null;
-    private static String currency = "USD";
-    private static String authCode = null;
-    private static String retryCount = null;
-    private static String avsAddress1 = null;
-    private static String avsAddress2 = null;
-    private static String avsCity = null;
-    private static String avsZip = null;
-    private static String cardHolderEmail = null;
-    private static String cardHolderPhone = null;
-    private static String employeeRefNum = null;
-    private static String customerRefNum = null;
-    private static String orderRefNum = null;
-    private static String terminalRefNum = null;
+    private String transactionId = null;
+    private String account = null;
+    private long amount;
+    private String expmmyyyy = null;
+    private String cvv = null;
+    private String track1Data = null;
+    private String track2Data = null;
+    private String signatureData = null;
+    private String cardHolderName = null;
+    private String method = null;
+    private String currency = "USD";
+    private String authCode = null;
+    private String retryCount = null;
+    private String avsAddress1 = null;
+    private String avsAddress2 = null;
+    private String avsCity = null;
+    private String avsZip = null;
+    private String cardHolderEmail = null;
+    private String cardHolderPhone = null;
+    private String employeeRefNum = null;
+    private String customerRefNum = null;
+    private String orderRefNum = null;
+    private String terminalRefNum = null;
 
     public ChargeBuilder(Config config){
         this.config = config;
@@ -46,43 +43,51 @@ public class ChargeBuilder
                 avsAddress1, avsAddress2, avsCity, avsZip, cardHolderEmail, cardHolderPhone, employeeRefNum,
                 customerRefNum, orderRefNum, terminalRefNum);
 
-        // Serializes RedPayRequest
-        Gson gson = new Gson();
-        String data = gson.toJson(charge);
-
-        // Encrypts RedPayRequest
-        String[] enc = Crypto.encrypt(config.getBase64Key(), data);
-        String iv, aesData;
-        if (enc != null && enc.length == 2)
-        {
-            iv = enc[0];
-            aesData = enc[1];
-        }
-        else
-        {
-            System.out.println("Encryption Failed");
-            return null;
-        }
-
-        // Creates the packet
-        Packet payload = new Packet(config.getApp(), aesData, iv);
-
-        // Serializes Packet
-        String json = gson.toJson(payload);
+        // Checks card data
+        validate();
 
         // POSTs serialized packet to RedPay
-        String response = Packet.POST(config.getUrl(), json);
-        Packet responsePacket = gson.fromJson(response, Packet.class);
-
-        // Decrypts RedPayResponse
-        String encryptedResponseIv = responsePacket.getIv();
-        String encryptedResponseData = responsePacket.getAesData();
-        String decryptedData = Crypto.decrypt(config.getBase64Key(), encryptedResponseIv, encryptedResponseData);
-        RedPayResponse redPayResponse = gson.fromJson(decryptedData, RedPayResponse.class);
-
-        System.out.println("\nResponse Data: \n" + decryptedData);
+        RedPayResponse redPayResponse = Packet.POST(config, charge);
 
         return redPayResponse;
+    }
+
+    // Validates card information before making a server call
+    private void validate() {
+        // Amount
+        if (amount <= 0)
+            throw new InvalidParameterException("Missing amount. Amount must be greater than 0");
+        // Card number
+        try {
+            Long.parseLong(account);
+        }
+        catch (NumberFormatException ex) {
+            throw new InvalidParameterException("Missing/Invalid account number. Account number must only contain digits");
+        }
+        // Cardholder name
+        if (cardHolderName == null)
+            throw new InvalidParameterException("Missing cardholder name. Please provide a string before making a charge");
+        // Expiration date
+        try {
+            Long.parseLong(expmmyyyy);
+        }
+        catch (NumberFormatException ex) {
+            throw new InvalidParameterException("Missing/Invalid expiration date. Expiration date can only contain 6 digits");
+        }
+        // Cvv
+        try {
+            Long.parseLong(cvv);
+        }
+        catch (NumberFormatException ex) {
+            throw new InvalidParameterException("Missing/Invalid card cvv. Card cvv must only contain digits.");
+        }
+        try {
+            Long.parseLong(avsZip);
+        }
+        catch (NumberFormatException ex) {
+            throw new InvalidParameterException("Missing/Invalid zip code. Please provide a digit string");
+        }
+
     }
 
     public ChargeBuilder transactionId(String mTransactionId)

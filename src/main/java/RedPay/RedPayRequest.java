@@ -1,8 +1,5 @@
-package Requests;
+ package RedPay;
 
-/**
- * Created by redshepherd on 7/6/2016.
- */
 class RedPayRequest {
     private String action;
     private String transactionId;

@@ -1,4 +1,4 @@
-package Requests;
+package RedPay;
 
 import org.apache.commons.codec.binary.*;
 
@@ -15,9 +15,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by redshepherd on 7/7/2016.
- */
 public class Crypto {
 
     // Verifies that 256-bit keys can be used.

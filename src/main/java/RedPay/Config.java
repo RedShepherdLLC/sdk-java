@@ -1,8 +1,5 @@
-package Requests;
+package RedPay;
 
-/**
- * Created by redshepherd on 7/8/2016.
- */
 public class Config {
     private String app;
     private String base64Key;
