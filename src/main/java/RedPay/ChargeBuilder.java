@@ -53,7 +53,7 @@ public class ChargeBuilder
     }
 
     // Validates card information before making a server call
-    private void validate() {
+    private void validate() throws InvalidParameterException {
         // Amount
         if (amount <= 0)
             throw new InvalidParameterException("Missing amount. Amount must be greater than 0");

@@ -2,10 +2,7 @@ package RedPay;
 
 import org.apache.commons.codec.binary.*;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
 
 import javax.crypto.SecretKey;
 import javax.crypto.Cipher;
@@ -15,31 +12,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class Crypto {
-
-    // Verifies that 256-bit keys can be used.
-    public static boolean validateClientJDK()
-    {
-        try {
-            int maxKeyLen = Cipher.getMaxAllowedKeyLength("AES");
-            if (maxKeyLen == 128)
-            {
-                System.out.println("Max Key Length: " + maxKeyLen + " bits");
-                System.out.println("Your installed JDK restricts key sizes to 128 bits. Our software requires the use of 256 bit keys for encryption.");
-                System.out.println("To remove this restriction, please download the JCE Unlimited Strength Jurisdiction Policy Files from http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html");
-                System.out.println("Extract the .zip file and place the .jar files in your Java\\jdk\\jre\\lib\\security folder. This will replace the pre-installed files.");
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        catch (NoSuchAlgorithmException noSuchAlgorithm) {
-            System.out.println(noSuchAlgorithm);
-            return false;
-        }
-    }
+class Crypto {
 
     static String[] encrypt(String base64Key, String strToEncrypt)
     {
@@ -70,28 +43,22 @@ public class Crypto {
 
         }
         catch (NoSuchAlgorithmException noSuchAlgorithm) {
-            System.out.println("No Such Algorithm exists: " + noSuchAlgorithm);
-            return null;
+            throw new IllegalStateException("No Such Algorithm exists: " + noSuchAlgorithm);
         }
         catch (NoSuchPaddingException noSuchPadding) {
-            System.out.println("No Such Padding exists: " + noSuchPadding);
-            return null;
+            throw new IllegalStateException("No Such Padding exists: " + noSuchPadding);
         }
         catch (InvalidKeyException invalidKey) {
-            System.out.println("Invalid Key: " + invalidKey);
-            return null;
+            throw new IllegalStateException("Invalid Key: " + invalidKey);
         }
         catch (InvalidAlgorithmParameterException invalidAlgorithm) {
-            System.out.println("Invalid Parameter: " + invalidAlgorithm);
-            return null;
+            throw new IllegalStateException("Invalid Parameter: " + invalidAlgorithm);
         }
         catch (IllegalBlockSizeException illegalBlockSize) {
-            System.out.println("Illegal Block Size: " + illegalBlockSize);
-            return null;
+            throw new IllegalStateException("Illegal Block Size: " + illegalBlockSize);
         }
         catch (BadPaddingException badPadding) {
-            System.out.println("Bad Padding: " + badPadding);
-            return null;
+            throw new IllegalStateException("Bad Padding: " + badPadding);
         }
     }
 
@@ -117,28 +84,22 @@ public class Crypto {
 
         }
         catch (NoSuchAlgorithmException noSuchAlgorithm) {
-            System.out.println("No Such Algorithm exists " + noSuchAlgorithm);
-            return null;
+            throw new IllegalStateException("No Such Algorithm exists " + noSuchAlgorithm);
         }
         catch (NoSuchPaddingException noSuchPadding) {
-            System.out.println("No Such Padding exists " + noSuchPadding);
-            return null;
+            throw new IllegalStateException("No Such Padding exists " + noSuchPadding);
         }
         catch (InvalidKeyException invalidKey) {
-            System.out.println("Invalid Key " + invalidKey);
-            return null;
+            throw new IllegalStateException("Invalid Key " + invalidKey);
         }
         catch (InvalidAlgorithmParameterException invalidAlgorithm) {
-            System.out.println("Invalid Parameter " + invalidAlgorithm);
-            return null;
+            throw new IllegalStateException("Invalid Parameter " + invalidAlgorithm);
         }
         catch (IllegalBlockSizeException illegalBlockSize) {
-            System.out.println("Illegal Block Size " + illegalBlockSize);
-            return null;
+            throw new IllegalStateException("Illegal Block Size " + illegalBlockSize);
         }
         catch (BadPaddingException badPadding) {
-            System.out.println("Bad Padding " + badPadding);
-            return null;
+            throw new IllegalStateException("Bad Padding " + badPadding);
         }
     }
 }

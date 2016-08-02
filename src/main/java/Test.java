@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.security.KeyManagementException;
 import java.util.Random;
 
 import RedPay.*;
@@ -6,12 +7,7 @@ import RedPay.*;
 
 public class Test {
 
-    public static void main(String[] args) throws IOException {
-
-        // Validates client's JDK encryption key size
-        if (!Crypto.validateClientJDK()){
-            return;
-        }
+    public static void main(String[] args) throws KeyManagementException, IOException {
 
         // Used to randomize the amounts charged
         Random random = new Random();

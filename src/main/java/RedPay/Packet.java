@@ -47,8 +47,7 @@ class Packet
         }
         else
         {
-            System.out.println("Encryption Failed");
-            return null;
+            throw new IllegalStateException("Encryption Failed");
         }
 
         // Creates and serializes packet
@@ -71,12 +70,8 @@ class Packet
         Packet responsePacket;
 
         // Throws exception if engine is down
-        try{
-            responsePacket = gson.fromJson(response.body().string(), Packet.class);
-        }
-        catch (IllegalStateException exception) {
-            throw new RejectedExecutionException("RedPay engine is stopped");
-        }
+        responsePacket = gson.fromJson(response.body().string(), Packet.class);
+
 
         // Decrypts RedPayResponse
         String encryptedResponseIv = responsePacket.getIv();
