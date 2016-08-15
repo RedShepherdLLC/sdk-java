@@ -15,7 +15,8 @@ public class Test {
         int min = 1000;
 
         // Sets up client's app name, encryption key, and endpoint
-        Config config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=","https://redpaydemo.azurewebsites.net/card");
+        //Config config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=","https://redpaydemo.azurewebsites.net/card");
+        Config config = new Config("DEMO", "vZ9cvj3lONTEGWmuzTJ9tdjmDoEUEb7dPkdMdXyP1/4=","https://redpaystable.azurewebsites.net/card");
 
         // Charges a credit card
         ChargeBuilder chargeBuilder = new ChargeBuilder(config)
